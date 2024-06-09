@@ -10,3 +10,7 @@
     -fx-min-height: 30px; 
     -fx-padding: 0;
 }
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:hover:filled:selected {
+    -fx-background-color: #ffffff; /* Ensure this is a valid color */
+}

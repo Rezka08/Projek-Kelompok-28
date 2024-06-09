@@ -8,7 +8,6 @@ import java.util.List;
 import id.rezka.tuprak9.controller.DbManager;
 import id.rezka.tuprak9.utils.EditScene;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

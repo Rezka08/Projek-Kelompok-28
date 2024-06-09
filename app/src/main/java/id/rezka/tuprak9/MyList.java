@@ -20,7 +20,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
-import javafx.scene.layout.Region;
 
 public class MyList {
     private static VBox list;
@@ -171,9 +170,9 @@ public class MyList {
             .map(allSchedule::get)
             .map(data -> Integer.parseInt(data[0]))
             .collect(Collectors.toList());
-
-        DbManager.deleteItems(selectedIndexes); //  method menghapus item dari database melalui ID
-        updateList(new Stage()); // me refresh list
+    
+        selectedIndexes.forEach(DbManager::removeData);
+        updateList(new Stage());
     }
 
     private static void deleteAllItems() {

@@ -188,7 +188,7 @@ public class EditScene extends InputJadwal {
             String timeString = timeField.getText().trim().isEmpty() ? scheduleDetails[4] : timeField.getText().trim();
 
             // menggunakan inisiasi deskripsi yang sblmnya jika blm diubah oleh user
-            String deskripsi = descriptionArea.getText().trim().isEmpty() ? scheduleDetails[5] : descriptionArea.getText().trim();
+            String deskripsi = (descriptionArea.getText() != null) ? descriptionArea.getText().trim() : "";
 
             String pesanError = null;
             if (judul.isEmpty() || priority == null || dateString.isEmpty() || timeString.isEmpty()) {

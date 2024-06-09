@@ -192,24 +192,9 @@ public class DbManager {
         }
     }
 
-    // Metode untuk menghapus beberapa item berdasarkan ID
-    public static void deleteItems(List<Integer> ids) {
-        String sql = "DELETE FROM Pengingat WHERE id = ?";
-        try (Connection connection = DatabaseConnection.connect();
-            PreparedStatement statement = connection.prepareStatement(sql)) {
-            for (int id : ids) {
-                statement.setInt(1, id);
-                statement.addBatch();
-            }
-            statement.executeBatch();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     // Metode untuk menghapus semua item
     public static void deleteAllItems() {
-        String sql = "DELETE FROM Pengingat";
+        String sql = "DELETE FROM Pengingat WHERE selesai = 0";
         try (Connection connection = DatabaseConnection.connect();
             Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
