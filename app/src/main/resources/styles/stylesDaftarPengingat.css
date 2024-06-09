@@ -47,3 +47,10 @@
     -fx-border-radius: 20;
     -fx-background-radius: 20
 }
+
+#complete-btn:hover{
+    -fx-background-color:  #a8a8a8;
+    -fx-border-color: black;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20
+}
