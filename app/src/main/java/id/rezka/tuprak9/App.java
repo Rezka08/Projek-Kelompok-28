@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.Cursor;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -82,6 +83,7 @@ public class App extends Application {
         searchbar.setMaxWidth(470);
         searchbar.setMinHeight(30);
         searchbar.setId("for-outer");
+        searchbar.setCursor(Cursor.HAND);
 
         // Action untuk Search
         searchbar.setOnAction(e -> {
@@ -113,6 +115,7 @@ public class App extends Application {
         calendarButton.setMaxWidth(150);
         calendarButton.setMinHeight(100);
         calendarButton.setId("btn-calendar");
+        
 
         // Action untuk gambar Calendar(Daftar List) Button
         calendarButton.setOnAction(e -> {
@@ -122,6 +125,8 @@ public class App extends Application {
                 ex.printStackTrace();
             }
         });
+
+        
 
         try {
             FileInputStream iconStream = new FileInputStream("src/main/resources/image/calendar.png");
@@ -139,6 +144,9 @@ public class App extends Application {
             vbox.setAlignment(Pos.CENTER);
 
             calendarButton.setGraphic(vbox);
+
+            vbox.setOnMouseEntered(event -> primaryStage.getScene().setCursor(Cursor.HAND));
+            vbox.setOnMouseExited(event -> primaryStage.getScene().setCursor(Cursor.DEFAULT));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -175,6 +183,9 @@ public class App extends Application {
             vboxcmpltd.setAlignment(Pos.CENTER);
 
             completedButton.setGraphic(vboxcmpltd);
+
+            vboxcmpltd.setOnMouseEntered(event -> primaryStage.getScene().setCursor(Cursor.HAND));
+            vboxcmpltd.setOnMouseExited(event -> primaryStage.getScene().setCursor(Cursor.DEFAULT));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -191,6 +202,7 @@ public class App extends Application {
         Button jadwalHarian = new Button("Today's Task List");
         jadwalHarian.setId("btn-jadwalHari");
         jadwalHarian.setPrefWidth(380);
+        jadwalHarian.setCursor(Cursor.HAND);
         jadwalHarian.setOnAction(e -> {
             DaftarPengingatHarian.tampilkanDaftarHarian(primaryStage, jadwalHarian);
         });
@@ -204,6 +216,7 @@ public class App extends Application {
         jadwalButton.setPrefHeight(25);
         jadwalButton.setPrefWidth(140);
         jadwalButton.setId("btn-jadwal");
+        jadwalButton.setCursor(Cursor.HAND);
 
         // Action untuk jadwal
         jadwalButton.setOnAction(e -> {

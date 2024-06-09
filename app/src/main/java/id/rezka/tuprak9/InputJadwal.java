@@ -5,13 +5,13 @@ import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-
 import id.rezka.tuprak9.controller.DbManager;
 import id.rezka.tuprak9.utils.NotifInputJadwal;
 import id.rezka.tuprak9.utils.TambahDeskripsi;
 import id.rezka.tuprak9.utils.TambahWaktu;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,14 +29,14 @@ import javafx.stage.Stage;
 
 public class InputJadwal {
     private static String jenisPrioritas = null;
-    
+
     public static Button rendahPrio;
     public static Button sedangPrio;
     public static Button tinggiPrio;
     private static boolean isRendahPressed = false;
     private static boolean isSedangPressed = false;
     private static boolean isTinggiPressed = false;
-    
+
     public static String getJenisPrioritas() {
         return jenisPrioritas;
     }
@@ -80,15 +80,15 @@ public class InputJadwal {
         resetPrioritasPressed();
         TambahWaktu.reset();
         TambahDeskripsi.resetDeskripsi();
-        
+
         // Label untuk judul form "Add New Schedule"
         Label catatanLabel = new Label("Add New Schedule");
         catatanLabel.setId("cttn-label");
-        
+
         // Label untuk "Title"
         Label judulLabel = new Label("Title");
         judulLabel.setId("judul-label");
-        
+
         // TextField untuk memasukkan judul jadwal
         TextField jadwalField = new TextField();
         jadwalField.setPromptText("Enter The Title");
@@ -111,7 +111,7 @@ public class InputJadwal {
         titlebox.setAlignment(Pos.TOP_LEFT);
         // VBox untuk menampung label dan input judul
         VBox labelBox = new VBox(10, catatanLabel,titlebox, jadwalField, jPLabel);
-        
+
         labelBox.setAlignment(Pos.TOP_CENTER);
 
         // Button untuk prioritas rendah
@@ -133,7 +133,7 @@ public class InputJadwal {
                 setJenisPrioritas("Low");
             }
         });
-            
+
         // Button untuk prioritas sedang
         sedangPrio = new Button("Medium");
         sedangPrio.setPrefWidth(100);
@@ -154,8 +154,8 @@ public class InputJadwal {
 
             }
         });
-            
-        // Button untuk prioritas tinggi        
+
+        // Button untuk prioritas tinggi
         tinggiPrio = new Button("High");
         tinggiPrio.setPrefWidth(100);
         tinggiPrio.setId("btn-tinggi");
@@ -174,6 +174,13 @@ public class InputJadwal {
                 setJenisPrioritas("High");
             }
         });
+
+        // Menambahkan event handler untuk mengubah kursor ketika mouse masuk dan keluar
+        Button[] buttons = {rendahPrio, sedangPrio, tinggiPrio};
+        for (Button button : buttons) {
+            button.setOnMouseEntered(event -> button.setCursor(Cursor.HAND));
+            button.setOnMouseExited(event -> button.setCursor(Cursor.DEFAULT));
+        }
 
         // HBox untuk menampung tombol prioritas
         HBox jPbutton = new HBox(10,rendahPrio, sedangPrio, tinggiPrio);
@@ -200,7 +207,14 @@ public class InputJadwal {
         tambahDeskrip.setId("btn-addtimeanddesc");
         tambahDeskrip.setOnAction(e ->{
             TambahDeskripsi.tambahDeskrip(primaryStage).showAndWait();
-        });        
+        });
+
+        // Menambahkan event handler untuk mengubah kursor ketika mouse masuk dan keluar
+        Button[] detailButtons = {tambahWaktu, tambahDeskrip};
+        for (Button button : detailButtons) {
+            button.setOnMouseEntered(event -> button.setCursor(Cursor.HAND));
+            button.setOnMouseExited(event -> button.setCursor(Cursor.DEFAULT));
+        }
 
         // VBox untuk menampung detail label, tambah waktu, dan tambah deskripsi
         VBox detailVBox = new VBox(10, detailLabel,tambahWaktu, tambahDeskrip);
@@ -234,7 +248,7 @@ public class InputJadwal {
         backButton.setPrefSize(70, 20);
         backButton.setMinSize(70, 10);
         try {
-             // Setel ikon tombol kembali
+            // Setel ikon tombol kembali
             FileInputStream iconStream = new FileInputStream("src/main/resources/image/back-arrow.png");
             Image icon = new Image(iconStream);
 
@@ -245,7 +259,7 @@ public class InputJadwal {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        
+
         // HBox untuk menampung tombol kembali dan tombol simpan
         HBox tombol = new HBox(340, backButton, saveButton);
         tombol.setAlignment(Pos.CENTER);
@@ -256,7 +270,7 @@ public class InputJadwal {
         layout.setAlignment(Pos.TOP_LEFT);
         layout.setId("lyt-jadwal");
         layout.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
-        
+
         // VBox untuk menampilkan notifikasi
         VBox notifBox = new VBox( layout);
         notifBox.setTranslateY(NotifInputJadwal.NOTIFICATION_HEIGHT);
@@ -289,20 +303,19 @@ public class InputJadwal {
                 NotifInputJadwal.slidekeBawah(notifBox, sceneSebelumnya);
             }
         });
-        
-         // Event handler untuk tombol back
+
+        // Event handler untuk tombol back
         backButton.setOnAction(e -> {
             NotifInputJadwal.slidekeBawah(notifBox,sceneSebelumnya);
         });
 
-         // Menonaktifkan elemen-elemen di scene sebelumnya
+        // Menonaktifkan elemen-elemen di scene sebelumnya
         StackPane rootSebelumnya = (StackPane) sceneSebelumnya.getRoot();
         rootSebelumnya.getChildren().forEach(node -> node.setDisable(true));
 
         // StackPane untuk menampung scene sebelumnya dan notifikasi
         StackPane mainLayoutAddSch = new StackPane();
         mainLayoutAddSch.getChildren().addAll(sceneSebelumnya.getRoot(), notifBox);
-        
 
         // Membuat scene baru dengan layout yang sudah diatur dan menambahkan stylesheet
         Scene scene = new Scene(mainLayoutAddSch, 500, 600);
