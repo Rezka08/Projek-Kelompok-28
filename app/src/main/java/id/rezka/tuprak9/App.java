@@ -1,6 +1,5 @@
 package id.rezka.tuprak9;
 
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -18,11 +17,9 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import javax.swing.text.LabelView;
-
 public class App extends Application {
     private App appInstance;
-    
+
     @Override
     public void start(Stage primaryStage) {
         appInstance = this;
@@ -35,7 +32,7 @@ public class App extends Application {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        
+
         // Create and set loading scene
         Scene loadingScene = createLoadingScene(primaryStage);
         primaryStage.setScene(loadingScene);
@@ -85,7 +82,6 @@ public class App extends Application {
         searchbar.setMaxWidth(470);
         searchbar.setMinHeight(30);
         searchbar.setId("for-outer");
-        
 
         // Action untuk Search
         searchbar.setOnAction(e -> {
@@ -98,7 +94,7 @@ public class App extends Application {
 
         StackPane stackPane1 = new StackPane(searchbar);
         stackPane1.setAlignment(Pos.TOP_CENTER);
-        stackPane1.setPadding(new javafx.geometry.Insets(20));
+        stackPane1.setPadding(new Insets(20));
 
         try {
             FileInputStream iconStream = new FileInputStream("src/main/resources/image/search.png");
@@ -142,7 +138,6 @@ public class App extends Application {
             vbox.getChildren().addAll(imageView, lblmylst);
             vbox.setAlignment(Pos.CENTER);
 
-
             calendarButton.setGraphic(vbox);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -176,11 +171,10 @@ public class App extends Application {
             lblcmpltd.setId("mylist-font");
 
             VBox vboxcmpltd = new VBox();
-            vboxcmpltd.getChildren().addAll(imageView,lblcmpltd);
+            vboxcmpltd.getChildren().addAll(imageView, lblcmpltd);
             vboxcmpltd.setAlignment(Pos.CENTER);
 
             completedButton.setGraphic(vboxcmpltd);
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -191,8 +185,8 @@ public class App extends Application {
 
         StackPane buttonPane = new StackPane(hBoxButtons);
         buttonPane.setAlignment(Pos.TOP_CENTER);
-        buttonPane.setPadding(new javafx.geometry.Insets(30, 0, 0, 0));
-        
+        buttonPane.setPadding(new Insets(30, 0, 0, 0));
+
         // button menampilkan jadwal harian
         Button jadwalHarian = new Button("Today's Task List");
         jadwalHarian.setId("btn-jadwalHari");
@@ -205,13 +199,11 @@ public class App extends Application {
         btnDaftarHarian.setAlignment(Pos.CENTER);
         buttonPane.setPadding(new javafx.geometry.Insets(0, 20, 0, 20));
 
-        //button add schedule
+        // button add schedule
         Button jadwalButton = new Button(" Add Schedule ");
-        jadwalButton.setMaxHeight(100);
-        jadwalButton.setMinHeight(10);
-        jadwalButton.setAlignment(Pos.BASELINE_RIGHT);
+        jadwalButton.setPrefHeight(25);
+        jadwalButton.setPrefWidth(140);
         jadwalButton.setId("btn-jadwal");
-
 
         // Action untuk jadwal
         jadwalButton.setOnAction(e -> {
@@ -223,9 +215,8 @@ public class App extends Application {
         });
 
         StackPane jadwalPane = new StackPane(jadwalButton);
-        jadwalPane.setAlignment(Pos.BOTTOM_LEFT);
-        jadwalPane.setPadding(new javafx.geometry.Insets(330, 0, 0, 360));
-
+        jadwalPane.setAlignment(Pos.BOTTOM_RIGHT);
+        jadwalPane.setPadding(new javafx.geometry.Insets(310, 10, 0, 360));
         try {
             FileInputStream iconStream = new FileInputStream("src/main/resources/image/plus.png");
             Image icon = new Image(iconStream);
@@ -256,23 +247,18 @@ public class App extends Application {
             root.getChildren().add(backgroundImageView);
             StackPane.setAlignment(backgroundImageView, Pos.CENTER);
             StackPane.setMargin(backgroundImageView, new Insets(150, 0, 0, 25));
-            
-            
         }
 
         // Menambahkan elemen-elemen ke StackPane
         VBox vBox = new VBox(10);
         vBox.getChildren().addAll(stackPane1, buttonPane, btnDaftarHarian, jadwalPane);
-        root.getChildren().add(vBox);
+        root.getChildren().addAll(vBox);
         root.setId("lyt-BG");
-        
-        
 
-        Scene scene = new Scene(root, 500, 630);
+        Scene scene = new Scene(root, 500, 600);
         scene.getStylesheets().add("/styles/stylesInputJadwal&App.css");
         scene.getStylesheets().add("/styles/stylesMyList.css");
         
-
         primaryStage.setScene(scene);
 
         return scene;
