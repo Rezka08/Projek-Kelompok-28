@@ -10,12 +10,15 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+import javax.swing.text.LabelView;
 
 public class App extends Application {
     private App appInstance;
@@ -132,6 +135,15 @@ public class App extends Application {
             imageView.setFitHeight(90);
             imageView.setFitWidth(90);
             calendarButton.setGraphic(imageView);
+
+            Label lblmylst = new Label("My-List");
+            lblmylst.setId("mylist-font");
+            VBox vbox = new VBox();
+            vbox.getChildren().addAll(imageView, lblmylst);
+            vbox.setAlignment(Pos.CENTER);
+
+
+            calendarButton.setGraphic(vbox);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -159,6 +171,16 @@ public class App extends Application {
             imageView.setFitHeight(90);
             imageView.setFitWidth(90);
             completedButton.setGraphic(imageView);
+
+            Label lblcmpltd = new Label("Completed-List");
+            lblcmpltd.setId("mylist-font");
+
+            VBox vboxcmpltd = new VBox();
+            vboxcmpltd.getChildren().addAll(imageView,lblcmpltd);
+            vboxcmpltd.setAlignment(Pos.CENTER);
+
+            completedButton.setGraphic(vboxcmpltd);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -246,7 +268,7 @@ public class App extends Application {
         
         
 
-        Scene scene = new Scene(root, 500, 600);
+        Scene scene = new Scene(root, 500, 620);
         scene.getStylesheets().add("/styles/stylesInputJadwal&App.css");
         scene.getStylesheets().add("/styles/stylesMyList.css");
         

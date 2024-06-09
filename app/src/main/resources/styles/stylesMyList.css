@@ -85,3 +85,6 @@
     -fx-font-size: 20px; 
     -fx-text-fiil: black;
 }
+#mylist-font{
+    -fx-font-size:12px; 
+}
