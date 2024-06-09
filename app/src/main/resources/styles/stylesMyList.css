@@ -88,3 +88,14 @@
 #mylist-font{
     -fx-font-size:12px; 
 }
+
+#deleteselect{
+    -fx-background-color: #ffffff;
+    -fx-font-size: 10px; 
+    -fx-font-weight: bold;
+}
+#deleteall{
+    -fx-background-color: #ffffff;
+    -fx-font-size: 10px; 
+    -fx-font-weight: bold;
+}

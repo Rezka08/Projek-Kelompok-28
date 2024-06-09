@@ -268,7 +268,7 @@ public class App extends Application {
         
         
 
-        Scene scene = new Scene(root, 500, 620);
+        Scene scene = new Scene(root, 500, 630);
         scene.getStylesheets().add("/styles/stylesInputJadwal&App.css");
         scene.getStylesheets().add("/styles/stylesMyList.css");
         
