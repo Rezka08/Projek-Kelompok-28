@@ -83,5 +83,9 @@ public class TambahDeskripsi {
     public static String getDeskripsi() {
         return deskripsi;
     }
+    
+    public static void resetDeskripsi() {
+        deskripsi = null;
+    }
 }
 

@@ -208,7 +208,7 @@ public class EditScene extends InputJadwal {
                 LocalDate tanggal = LocalDate.parse(dateString);
                 LocalTime waktu = LocalTime.parse(timeString);
                 DbManager.updateData(id, judul, priority, tanggal, waktu, deskripsi);
-                MyList.upadateList(primaryStage);
+                MyList.updateList(primaryStage);
 
                 // Update scheduleDetails array
                 scheduleDetails[1] = judul;

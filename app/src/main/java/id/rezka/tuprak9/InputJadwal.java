@@ -69,9 +69,17 @@ public class InputJadwal {
         InputJadwal.isTinggiPressed = isTinggiPressed;
     }
 
+    public static void resetPrioritasPressed(){
+        setRendahPressed(false);
+        setSedangPressed(false);
+        setTinggiPressed(false);
+    }
+
     public static Scene createScene(Stage primaryStage, App app, Scene sceneSebelumnya) {
-        getJenisPrioritas();
+        setJenisPrioritas(null);
+        resetPrioritasPressed();
         TambahWaktu.reset();
+        TambahDeskripsi.resetDeskripsi();
         
         // Label untuk judul form "Add New Schedule"
         Label catatanLabel = new Label("Add New Schedule");
@@ -183,7 +191,7 @@ public class InputJadwal {
         // tambahWaktu.setId("btn-tmbhwkt");
 
         tambahWaktu.setOnAction(e -> {
-        TambahWaktu.tambahWaktuTanggal(primaryStage).showAndWait();
+            TambahWaktu.tambahWaktuTanggal(primaryStage).showAndWait();
         });
 
         // Button untuk menambahkan deskripsi
@@ -195,7 +203,7 @@ public class InputJadwal {
         });        
 
         // VBox untuk menampung detail label, tambah waktu, dan tambah deskripsi
-        VBox detailVBox = new VBox(10, detailLabel,tambahWaktu ,tambahDeskrip);
+        VBox detailVBox = new VBox(10, detailLabel,tambahWaktu, tambahDeskrip);
 
         // Button untuk menyimpan jadwal
         Button saveButton = new Button("");

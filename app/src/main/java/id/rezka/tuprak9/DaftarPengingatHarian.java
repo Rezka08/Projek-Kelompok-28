@@ -8,11 +8,14 @@ import java.util.List;
 import id.rezka.tuprak9.controller.DbManager;
 import id.rezka.tuprak9.utils.EditScene;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -64,7 +67,7 @@ public class DaftarPengingatHarian {
         backButton.setId("bck-bttn");
         backButton.setOnAction(e -> {
             primaryStage.setScene(previousScene); ; // Kembali ke scene sebelumnya
-            MyList.upadateList(primaryStage); // Perbarui daftar jadwal
+            MyList.updateList(primaryStage); // Perbarui daftar jadwal
         });
         try {
              // Setel ikon tombol kembali
@@ -142,24 +145,23 @@ public class DaftarPengingatHarian {
                 }
 
                 });
-
+        actionComboBox.setOnMouseEntered(e -> actionComboBox.show());
+        
         actionComboBox.setOnAction(e -> {
             CustomItem action = actionComboBox.getValue();
             if ("Delete".equals(action.getText())) {
-                int id = Integer.parseInt(scheduleDetails[0]); // Ambil ID jadwal dari array
-                DbManager.removeData(id); // Hapus jadwal dari database
-                primaryStage.setScene(previousScene); // Kembali ke scene sebelumnya
-
-                // Perbarui daftar jadwal di scene sebelumnya
-                MyList.upadateList(primaryStage);
-                CompletedScene.updateCompletedSchedule(primaryStage);
-
-                // Jika scene sebelumnya adalah scene pencarian, perbarui juga hasil pencarian
-                String rootid = previousScene.getRoot().getId();
-                if (rootid != null && rootid.equals("search-box")) {
-                    VBox searchBox = (VBox) ((ScrollPane) previousScene.lookup("#scroll-pane")).getContent();
-                    SearchScene.updateSearchResults(searchBox, "", primaryStage);
-                }
+                showConfirmationDialog("Delete", () -> {
+                    int id = Integer.parseInt(scheduleDetails[0]);
+                    DbManager.removeData(id);
+                    primaryStage.setScene(previousScene);
+                    MyList.updateList(primaryStage);
+                    CompletedScene.updateCompletedSchedule(primaryStage);
+                    String rootid = previousScene.getRoot().getId();
+                    if (rootid != null && rootid.equals("search-box")) {
+                        VBox searchBox = (VBox) ((ScrollPane) previousScene.lookup("#scroll-pane")).getContent();
+                        SearchScene.updateSearchResults(searchBox, "", primaryStage);
+                    }
+                });
             } else if ("Edit".equals(action.getText())) {
                 Scene editScene = EditScene.createEditScene(primaryStage, scheduleDetails, DaftarPengingatHarian.detailScene(primaryStage, scheduleDetails, previousScene));
                 primaryStage.setScene(editScene);
@@ -172,19 +174,21 @@ public class DaftarPengingatHarian {
         completeButton.setMaxHeight(100);
         completeButton.setId("complete-btn");
         completeButton.setOnAction(e -> {
-            int id = Integer.parseInt(scheduleDetails[0]);
-            DbManager.tandaSelesai(id);
-            primaryStage.setScene(previousScene);
-            MyList.upadateList(primaryStage);
-
-            String rootid = previousScene.getRoot().getId();
-            if (rootid != null && rootid.equals("search-box")) {
-                VBox searchBox = (VBox) ((ScrollPane) previousScene.lookup("#scroll-pane")).getContent();
-                SearchScene.updateSearchResults(searchBox, "", primaryStage);
-            }
+            showConfirmationDialog("Mark as Completed", () -> {
+                int id = Integer.parseInt(scheduleDetails[0]);
+                DbManager.tandaSelesai(id);
+                primaryStage.setScene(previousScene);
+                MyList.updateList(primaryStage);
+                String rootid = previousScene.getRoot().getId();
+                if (rootid != null && rootid.equals("search-box")) {
+                    VBox searchBox = (VBox) ((ScrollPane) previousScene.lookup("#scroll-pane")).getContent();
+                    SearchScene.updateSearchResults(searchBox, "", primaryStage);
+                }
+            });
         });
 
         HBox buttonBox = new HBox(400, backButton, actionComboBox);
+        buttonBox.setMaxSize(50, 30);
         // Layout BorderPane yang menempatkan semua komponen
         BorderPane layout = new BorderPane();
         layout.setTop(buttonBox);
@@ -263,6 +267,14 @@ public class DaftarPengingatHarian {
 
         //Memuat data jadwal dari database untuk tanggal hari ini.
         List<String[]> todaySchedules = DbManager.loadDataForDate(today);
+        todaySchedules.sort((a, b) -> {
+            String priorityA = a[2];
+            String priorityB = b[2];
+            if ("High".equals(priorityA) && !"High".equals(priorityB)) return -1;
+            if ("Medium".equals(priorityA) && "Low".equals(priorityB)) return -1;
+            if ("Low".equals(priorityA) && !"Low".equals(priorityB)) return 1;
+            return 0;
+        });
 
         //// Membuat sebuah scroll pane dan menambahkan daftar jadwal ke dalamnya
         ScrollPane scrollPane = new ScrollPane();
@@ -342,4 +354,13 @@ public class DaftarPengingatHarian {
             }
         });
     }
+
+    private static void showConfirmationDialog(String action, Runnable onConfirm) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to " + action + "?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                onConfirm.run();
+            }
+        });
+    }    
 }

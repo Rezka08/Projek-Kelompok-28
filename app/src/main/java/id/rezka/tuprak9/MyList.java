@@ -36,7 +36,7 @@ public class MyList {
         list.setId("list-box"); // Menetapkan ID untuk keperluan styling dengan CSS
 
         // upadate data terbaru
-        upadateList(primaryStage);
+        updateList(primaryStage);
 
         // Menetapkan konten dari ScrollPane dengan VBox yang berisi daftar jadwal
         scroll.setContent(list);
@@ -86,26 +86,41 @@ public class MyList {
         
     }
 
-    public static void upadateList(Stage primaryStage){
+    public static void updateList(Stage primaryStage){
         if (list != null) {
             list.getChildren().clear();
             // Mengambil semua jadwal dari database menggunakan DbManager
             List<String[]> allSchedule = DbManager.loadData();
+            //Memuat data jadwal secara berurutan menurut prioritas yg trrtingi
+            allSchedule.sort((a, b) -> {
+                String priorityA = a[2];
+                String priorityB = b[2];
+                if ("High".equals(priorityA) && !"High".equals(priorityB)) return -1;
+                if ("Medium".equals(priorityA) && "Low".equals(priorityB)) return -1;
+                if ("Low".equals(priorityA) && !"Low".equals(priorityB)) return 1;
+                return 0;
+            });
 
                 // Untuk setiap jadwal, buat Label yang menampilkan tanggal dan judul jadwal
-                for (String[] schedule : allSchedule){
-                    Label scheduLabel = new Label("\t" + schedule[3] + "\t\t" + schedule[1]);
-                    scheduLabel.setPrefWidth(460);
-                    scheduLabel.setPrefHeight(40);
-                    scheduLabel.setId("schedule-label");
+            for (String[] jadwal : allSchedule) {
+                Label scheduLabel = new Label("\t" + jadwal[3] + "\t\t" + jadwal[1]); // Membuat sebuah label dengan teks berisi waktu dan judul jadwal.
+                scheduLabel.setPrefWidth(460);
+                scheduLabel.setPrefHeight(40);
+                //Menentukan warna label berdasarkan tingkat prioritas jadwal.
+                if ("Low".equals(jadwal[2])) {
+                    scheduLabel.setId("rendah-label");
+                } else if ("Medium".equals(jadwal[2])) {
+                    scheduLabel.setId("sedang-label");
+                } else if ("High".equals(jadwal[2])) {
+                    scheduLabel.setId("tinggi-label");
+                }
     
-                    // Menetapkan event handler untuk Label, ketika diklik, akan menampilkan detail dari jadwal tersebut
-                    scheduLabel.setOnMouseClicked(e -> {
-                        Scene detailScene = DaftarPengingatHarian.detailScene(primaryStage, schedule, primaryStage.getScene());
-                        primaryStage.setScene(detailScene);
-                    });
-                    list.getChildren().add(scheduLabel); // Menambahkan Label ke dalam VBox
-                // }
+                // Menetapkan event handler untuk Label, ketika diklik, akan menampilkan detail dari jadwal tersebut
+                scheduLabel.setOnMouseClicked(e -> {
+                    Scene detailScene = DaftarPengingatHarian.detailScene(primaryStage, jadwal, primaryStage.getScene());
+                    primaryStage.setScene(detailScene);
+                });
+                list.getChildren().add(scheduLabel); // Menambahkan Label ke dalam VBox
             }
         }
     }

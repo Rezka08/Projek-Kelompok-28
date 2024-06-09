@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class CompletedScene {
-    private static VBox completedList;
+    private static VBox completedList = new VBox();
 
     public static Scene createScene(Stage primaryStage, App app) {
                 // Membuat scene yang menampilkan daftar tugas yang telah diselesaikan.

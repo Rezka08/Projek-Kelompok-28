@@ -14,17 +14,55 @@
     -fx-background: #CAF4FF;
 }
 
-#schedule-label{
+#rendah-label{
     -fx-font-family: 'Arial'; 
     -fx-font-size: 15px; 
-    -fx-text-fiil: black; 
-    -fx-background-color: #90CAF9; 
-    -fx-background-radius: 5
+    -fx-text-fill: black; 
+    -fx-background-color: #a5d6a7; 
+    -fx-background-radius: 5;
 }
 
-#schedule-label:hover{
-    -fx-background-color: #7dafd8; 
+#sedang-label{
+    -fx-font-family: 'Arial'; 
+    -fx-font-size: 15px; 
+    -fx-text-fill: black; 
+    -fx-background-color: #ffe082; 
+    -fx-background-radius: 5;
 }
+
+#tinggi-label{
+    -fx-font-family: 'Arial'; 
+    -fx-font-size: 15px; 
+    -fx-text-fill: black; 
+    -fx-background-color: #ea8465; 
+    -fx-background-radius: 5;
+}
+
+#rendah-label:hover{
+    -fx-font-family: 'Arial'; 
+    -fx-font-size: 15px; 
+    -fx-text-fill: black; 
+    -fx-background-color: #81d784; 
+    -fx-background-radius: 5;
+}
+
+#sedang-label:hover{
+    -fx-font-family: 'Arial'; 
+    -fx-font-size: 15px; 
+    -fx-text-fill: black; 
+    -fx-background-color: #fed455; 
+    -fx-background-radius: 5;
+}
+
+#tinggi-label:hover{
+    -fx-font-family: 'Arial'; 
+    -fx-font-size: 15px; 
+    -fx-text-fill: black; 
+    -fx-background-color: #f06f48; 
+    -fx-background-radius: 5;
+}
+
+
 
 #back-btn{
     -fx-background-color: #ffffff;
